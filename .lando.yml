@@ -1,0 +1,4 @@
+name: isdickgoddardalive.com
+recipe: laravel
+config:
+  webroot: public
