@@ -14,6 +14,7 @@
             background: #000;
             background-image: url('https://f.njbai.rs/dick-goddard.jpg');
             background-position: 60% center;
+            background-attachment: fixed;
             background-size: cover;
             color: #fff;
             width: 100vw;
