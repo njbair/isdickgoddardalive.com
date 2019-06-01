@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Is Dick Goddard Alive?</title>
-    <link href="https://fonts.googleapis.com/css?family=Vollkorn:600,900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.typekit.net/ocb4uhj.css">
     <style>
         body {
             margin: 0;
@@ -16,14 +16,14 @@
             background-position: 60% center;
             background-attachment: fixed;
             background-size: cover;
-            color: #fff;
+            color: #ffffff;
             width: 100vw;
             height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: left;
             justify-content: flex-end;
-            font-family: 'Vollkorn', serif;
+            font-family: cooper-black-std, serif;
             font-weight: 600;
         }
 
@@ -39,6 +39,7 @@
         .notes {
             margin: 0;
             padding: 0;
+            font-style: italic;
             font-size: 24px;
             text-align: left;
             text-shadow: 0 2px 0 rgba(0,0,0,.6);
