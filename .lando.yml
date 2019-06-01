@@ -1,4 +1,4 @@
-name: isdickgoddardalive.com
+name: is-dick-goddard-alive
 recipe: laravel
 config:
-  webroot: public
+  webroot: lumen/public
