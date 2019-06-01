@@ -11,6 +11,5 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'DickController@getIndex');
+Route::get('/api.json', 'DickController@getStatus');

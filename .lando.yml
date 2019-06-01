@@ -2,3 +2,6 @@ name: is-dick-goddard-alive
 recipe: laravel
 config:
   webroot: laravel/public
+  xdebug: true
+  conf:
+    php: .vscode/php.ini
