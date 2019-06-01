@@ -1,4 +1,4 @@
 name: is-dick-goddard-alive
 recipe: laravel
 config:
-  webroot: lumen/public
+  webroot: laravel/public
