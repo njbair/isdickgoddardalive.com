@@ -13,3 +13,4 @@
 
 Route::get('/', 'DickController@getIndex');
 Route::get('/api.json', 'DickController@getStatus');
+Route::get('/weather.json', 'DickController@getWeather');
