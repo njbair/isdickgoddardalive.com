@@ -70,8 +70,6 @@ function getWeather() {
             let desc = res.weather[0].description;
             let loc  = res.name;
 
-            console.log(res);
-
             weatherEl.classList.add('weather');
             iconEl.classList.add('wi', weatherIcons[icon]);
             descEl.textContent = ' ' + temp + '\xB0, ' + desc + ' in ' + loc;
