@@ -30,12 +30,29 @@ class OpenWeatherMap {
         if ($flush) Cache::forget($cacheKey);
         $this->weather = Cache::remember($cacheKey, $this->apiCacheTime, function(){
             $endpoint = $this->apiEndpoint . '/weather';
-            $result = $this->apiQuery($endpoint, [
+            $data = $this->apiQuery($endpoint, [
                 'id' => $this->apiCityId,
                 'units' => 'imperial',
             ]);
 
-            return $result;
+            if ($data) {
+                $result = (object) array(
+                    'icon'        => self::parseIcon($data->weather[0]->icon),
+                    'description' => $data->weather[0]->description,
+                    'temp'        => round($data->main->temp),
+                    'location'    => $data->name,
+                );
+                $result->asString = "{$result->temp}°, {$result->description} in {$result->location}";
+                return $result;
+            } else {
+                return (object) array(
+                    'icon'        => 'na',
+                    'description' => false,
+                    'temp'        => false,
+                    'location'    => 'unknown',
+                    'asString'    => 'Unable to retrieve weather data at this time.',
+                );
+            }
         });
 
         return $this->weather;
@@ -43,17 +60,21 @@ class OpenWeatherMap {
 
     private function apiQuery($endpoint, $query) {
         $query['appid'] = $this->apiKey;
-        $response = $this->client->request('GET', $endpoint, [
-            'query' => $query
-        ]);
+        try {
+            $response = $this->client->request('GET', $endpoint, [
+                'query' => $query
+            ]);
 
-        if ( $response->getStatusCode() !== 200) {
+            if ( $response->getStatusCode() !== 200) {
+                return false;
+            }
+
+            $data = json_decode($response->getBody()->getContents());
+
+            return $data;
+        } catch(GuzzleException $exception) {
             return false;
         }
-
-        $data = json_decode($response->getBody()->getContents());
-
-        return $data;
     }
 
     private static function parseField($data, $fieldName) {
@@ -61,5 +82,30 @@ class OpenWeatherMap {
             return false;
         }
         return $data->fields->$fieldName;
+    }
+
+    private static function parseIcon($data) {
+        $icons = array(
+            '01d' => 'sunny',
+            '01n' => 'clear-night',
+            '02d' => 'cloudy-day',
+            '02n' => 'cloudy-night',
+            '03d' => 'cloud',
+            '03n' => 'cloud',
+            '04d' => 'cloudy',
+            '04n' => 'cloudy',
+            '09d' => 'rain',
+            '09n' => 'rain',
+            '10d' => 'rain-day',
+            '10n' => 'rain-night',
+            '11d' => 'thunderstorm',
+            '11n' => 'thunderstorm',
+            '13d' => 'snow',
+            '13n' => 'snow',
+            '50d' => 'fog',
+            '50n' => 'fog',
+        );
+
+        return $icons[$data];
     }
 }

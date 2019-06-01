@@ -20,13 +20,21 @@ class DickController extends Controller
         return view('index');
     }
 
-    public function getStatus() {
-        $result = $this->airtable->getCheckIns();
-        return response()->json($result[0]);
-    }
+    public function getAllData() {
+        $checkIns = $this->airtable->getCheckIns();
+        $currentWeather = $this->openweathermap->getCurrentWeather();
 
-    public function getWeather() {
-        $result = $this->openweathermap->getCurrentWeather();
+        if (empty($checkIns)) {
+            $checkIns[] = (object) array(
+                'alive' => "?",
+                'notes' => "Unable to retrieve Dick's vital status at this time.",
+            );
+        }
+
+        $result = (object) array(
+            'status'  => $checkIns[0],
+            'weather' => $currentWeather,
+        );
         return response()->json($result);
     }
 }

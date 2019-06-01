@@ -38,9 +38,9 @@ class Airtable {
 
             foreach ($checkIns as $c) {
                 $out = (object) array(
-                    'date'   => self::parseField($c, 'Date'),
-                    'alive'  => self::parseField($c, 'Is Dick Goddard Alive?'),
-                    'notes'  => self::parseField($c, 'Notes'),
+                    'checkInDate' => self::parseField($c, 'Date'),
+                    'alive'       => self::parseField($c, 'Is Dick Goddard Alive?'),
+                    'notes'       => self::parseField($c, 'Notes'),
                 );
 
                 array_push($result, $out);
@@ -54,24 +54,28 @@ class Airtable {
 
     private function apiQuery($endpoint, $query) {
         $result = [];
-        $response = $this->client->request('GET', $endpoint, [
-            'headers' => [
-                'Authorization' => 'Bearer ' . $this->apiKey
-            ],
-            'query' => $query
-        ]);
+        try {
+            $response = $this->client->request('GET', $endpoint, [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->apiKey
+                ],
+                'query' => $query
+            ]);
 
-        if ( $response->getStatusCode() !== 200) {
-            return false;
+            if ( $response->getStatusCode() !== 200) {
+                return false;
+            }
+
+            $data = json_decode($response->getBody()->getContents());
+
+            foreach ($data->records as $record) {
+                array_push($result, $record);
+            }
+
+            return $result;
+        } catch(GuzzleException $exception) {
+            return [];
         }
-
-        $data = json_decode($response->getBody()->getContents());
-
-        foreach ($data->records as $record) {
-            array_push($result, $record);
-        }
-
-        return $result;
     }
 
     private static function parseField($data, $fieldName) {

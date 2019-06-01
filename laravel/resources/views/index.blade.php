@@ -18,7 +18,9 @@
         <meta name="theme-color" content="#ffffff">
     </head>
     <body>
-        <div id="statusContainer">&hellip;</div>
+        <div id="statusContainer">
+            <span class="loading">Checking in</span>
+        </div>
         <div id="notesContainer"></div>
         <div id="weatherContainer"></div>
 
